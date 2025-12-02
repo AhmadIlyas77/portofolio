@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Ahmad Ilyas Portfolio</title>
+  <meta name="description" content="Explore projects by Ahmad Ilyas, from robotics and RC planes to 3D printing and analog design." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .font-heading {
+      font-family: "Press Start 2P", cursive;
+      text-shadow: 2px 2px #0004;
+    }
+
+    body {
+      font-family: "VT323", monospace;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      image-rendering: pixelated;
+    }
+
+    html:not(.dark) body {
+      background-image: url('images/mario-background-light.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+    }
+
+    html.dark body {
+      background-image: url('images/mario-background-dark.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+    }
+
+    .rpg-box {
+      border: 4px solid;
+      box-shadow: inset 0 0 0 4px var(--inner-border-color);
+    }
+
+    /* --- FLIP EFFECT CSS --- */
+.project-flipper {
+  perspective: 1000px;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  position: relative;
+  cursor: pointer;
+}
+
+.project-front,
+.project-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transition: transform 0.6s;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.25rem;
+}
+
+/* front side (text / placeholder) */
+.project-front {
+  transform: rotateY(0deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* back side (your actual project image) */
+.project-back {
+  transform: rotateY(180deg);
+}
+
+/* flip on hover */
+.project-card:hover .project-front {
+  transform: rotateY(180deg);
+}
+
+.project-card:hover .project-back {
+  transform: rotateY(0deg);
+}
+
+
+    img,
+    video {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen flex flex-col">
+  <header id="header" class="sticky top-0 z-50 py-4 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-b-4 border-slate-800 dark:border-slate-200">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+      <a href="index.html" class="text-slate-800 dark:text-white flex items-center">
+        <div class="w-12 h-12 bg-cover bg-center" style="background-image: url('images/blinky.png');" role="img" aria-label="Site Logo"></div>
+      </a>
+      <nav class="hidden md:flex items-center space-x-4 text-lg">
+        <a href="index.html#about" class="hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
+
+        <div class="relative group">
+          <button class="text-cyan-500 dark:text-yellow-400 font-bold flex items-center">
+            Projects <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
+          </button>
+          <div class="absolute z-10 -left-4 top-full pt-2 w-48 hidden group-hover:block">
+            <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-4 border-slate-800 dark:border-slate-200 rounded-md overflow-hidden">
+              <a href="#robotics" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Robotics</a>
+              <a href="#rc-projects" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">RC Projects</a>
+              <a href="#electronics" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Electronics</a>
+              <a href="#3d-printable" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">3D Printable</a>
+            </div>
+          </div>
+        </div>
+
+        <a href="experience.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Experience</a>
+        <a href="publications.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Publications</a>
+        <a href="achievements.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Achievements</a>
+        <a href="index.html#contact" class="bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600">Contact</a>
+      </nav>
+      <div class="flex items-center">
+        <div class="relative hidden md:block mr-4">
+          <input type="search" id="search-input" placeholder="Search projects..." class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-48 transition-all duration-300 focus:w-64" />
+          <i data-lucide="search" class="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+        </div>
+        <button id="theme-toggle" class="mr-4 text-slate-800 dark:text-slate-200"></button>
+        <button id="mobile-menu-button" class="md:hidden text-slate-800 dark:text-slate-200"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 pt-4 space-y-2 text-lg bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+      <div class="relative mb-4">
+        <input type="search" id="mobile-search-input" placeholder="Search projects..." class="w-full bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-2 pl-10 text-lg" />
+        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+      </div>
+      <a href="index.html#about" class="block hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
+
+      <button id="mobile-projects-button" class="flex justify-between items-center w-full text-cyan-500 dark:text-yellow-400 font-bold">
+        Projects <i data-lucide="chevron-down" class="w-4 h-4"></i>
+      </button>
+      <div id="mobile-projects-menu" class="hidden pl-4">
+        <a href="#robotics" class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">Robotics</a>
+        <a href="#rc-projects" class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">RC Projects</a>
+        <a href="#electronics" class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">Electronics</a>
+        <a href="#3d-printable" class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">3D Printable</a>
+      </div>
+
+      <a href="experience.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Experience</a>
+      <a href="publications.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Publications</a>
+      <a href="achievements.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Achievements</a>
+      <a href="index.html#contact" class="block text-center mt-2 bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600">Contact</a>
+    </div>
+  </header>
+
+  <main class="py-20 flex-grow">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block">Project Compendium</h1>
+      </div>
+
+      <!-- Under Construction notice: text + image on same line -->
+      <div class="flex justify-center mb-12">
+        <div class="inline-flex items-center gap-4">
+          <span class="text-2xl md:text-3xl font-heading">
+            under consctruction
+          </span>
+          <img
+            src="images/under_construction.png"
+            alt="Under construction pixel art"
+            class="w-24 md:w-36"
+          />
+        </div>
+      </div>
+
+      <div class="space-y-16">
+
+        <!-- ROBOTICS SECTION (unchanged) -->
+        <section id="robotics" class="searchable-section">
+          <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block mb-8">Robotics Projects</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="blinky-2">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/3b82f6/ffffff?text=Blinky+2.0');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-blinky-2.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Teleoperation Robot (Blinky 2.0)</h3>
+                <p>Advanced teleoperation system controlling a mobile robot using VR/XR interfaces.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="blinky-1">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/ef4444/ffffff?text=Blinky');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-blinky-1.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Mobile Robot (Blinky)</h3>
+                <p>Designed for the BlindBot Battle competition at IIT-Delhi Tryst.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="self-driving">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/10b981/ffffff?text=Self-Driving+Robot');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-self-driving.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Self-Driving Robot</h3>
+                <p>Autonomous navigation robot capable of mapping and path planning.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="quadruped">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/f59e0b/ffffff?text=Quadruped+Robot');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-quadruped.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Quadruped Robot</h3>
+                <p>A 4-legged robot exploring inverse kinematics and gait analysis.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="soft-actuator">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/8b5cf6/ffffff?text=Soft+Robot');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-soft-actuator.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Soft Robotic Actuator</h3>
+                <p>Fabrication of soft pneumatic actuators for compliant gripping.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="robot-arm">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/4ade80/ffffff?text=Robo-Arm');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-robotic-arm.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">5-DOF Robotic Arm</h3>
+                <p>A robotic arm controlled via Bluetooth with a custom Android app.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="obstacle-robot">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/f87171/ffffff?text=Beetle-Bot');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-obstacle-robot.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Obstacle Avoiding Robot</h3>
+                <p>A simple beetle robot that navigates around objects using SPDT switches.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="dd-robocon">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/a78bfa/ffffff?text=DD-Robocon');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-dd-robocon.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">DD Robocon Robots</h3>
+                <p>Designed and built Elephant and Rabbit robots for DD-Robocon 2023.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="fast-line-follower">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/e0e7ff/000000?text=Line+Follower');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-line-follower.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Fast Line Follower</h3>
+                <p>High-speed line follower robot optimized for the Technoxian 9.0 competition.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="robohockey-bots">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/fff7ed/000000?text=RoboHockey');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-robo-hockey.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">RoboHockey Bots</h3>
+                <p>Agile and powerful bots designed for the RoboHockey event at Technoxian 9.0.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- RC PROJECTS SECTION (unchanged) -->
+        <section id="rc-projects" class="searchable-section">
+          <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block mb-8">RC Projects</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-flightfury">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=Flightfury');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-rc-plane.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">RC Plane for Flightfury</h3>
+                <p>A 1m wingspan trainer plane with a custom drop mechanism, designed for competition.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-hovercrafts">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/fbbf24/ffffff?text=Hovercraft');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-hovercraft.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">RC Hovercrafts</h3>
+                <p>Custom-built hovercrafts using PVC foamboard and 3D printed components.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-ft-flyer">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=FT-Flyer');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-ft-flyer.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">FT-Flyer</h3>
+                <p>My first ever RC Plane - FT-Flyer. Didn't fly great, but it was a start!</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=Blu-Baby');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-blu-baby.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Blu-Baby</h3>
+                <p>My second RC Plane - Blu-Baby Primary Trainer. Flew decently and taught me a lot.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby-v1-5">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/4c7c8c/ffffff?text=Blu-Baby+v1.5');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-blu-baby-1-5.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Blu-Baby v1.5</h3>
+                <p>An incremental revision focusing on structural reinforcement and a more powerful motor setup.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby-v2">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/60a5fa/ffffff?text=Blu-Baby+v2.0');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-blu-baby-2.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Blu-Baby v2.0</h3>
+                <p>A complete redesign incorporating new airframe material and custom 3D-printed parts for durability.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="custom-drone">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/8b5cf6/ffffff?text=Drone');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-drone.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Custom Drone Build</h3>
+                <p>A high-performance drone built and calibrated from scratch for acrobatic flight.</p>
+              </div>
+            </div>
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-ft-explorer">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=FT-Explorer');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-ft-explorer.jpg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">FT-Explorer</h3>
+                <p>Another RC Plane I built - FT-Explorer. A great all-rounder.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ELECTRONICS SECTION (extended) -->
+        <section id="electronics" class="searchable-section">
+          <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block mb-8">Electronics Projects</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Existing CS Amplifier -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="cs-amplifier">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/fca5a5/ffffff?text=CS+Amplifier');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-cs-amplifier.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">CS Amplifier Design</h3>
+                <p>CS Amplifier designed for the Analog Design Hackathon, achieving 35db gain and 28uW power dissipation.</p>
+              </div>
+            </div>
+
+            <!-- Smart Switch (Voltsense) -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="smart-switch">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/bef264/000000?text=Smart+Switch');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-smart-switch.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Smart Switch (Voltsense)</h3>
+                <p>Smart mains-sensing switch that automates appliance control based on voltage conditions.</p>
+              </div>
+            </div>
+
+            <!-- Broadcasting System -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="broadcasting-system">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/f97316/ffffff?text=Broadcasting+System');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-broadcasting-system.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Broadcasting System</h3>
+                <p>Audio broadcasting system with preamp, mixer and PA stages for announcements.</p>
+              </div>
+            </div>
+
+            <!-- Folded Cascode Amplifier -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="folded-cascode">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22c55e/ffffff?text=Folded+Cascode');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-folded-cascode.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Folded Cascode Amplifier</h3>
+                <p>Folded cascode op-amp targeting high gain and large output swing in CMOS.</p>
+              </div>
+            </div>
+
+            <!-- Full-differential Cascode Amplifier -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="full-diff-cascode">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/0ea5e9/ffffff?text=Full+Diff+Cascode');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-full-diff-cascode.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Full-differential Cascode Amplifier</h3>
+                <p>Fully differential cascode amplifier with common-mode feedback.</p>
+              </div>
+            </div>
+
+            <!-- 2-stage with voltage buffer -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="two-stage-buffer">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/a855f7/ffffff?text=2-Stage+Buffer');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-two-stage-buffer.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">2-Stage Amplifier with Voltage Buffer</h3>
+                <p>Two-stage CMOS op-amp followed by a buffer to drive low impedance loads.</p>
+              </div>
+            </div>
+
+            <!-- 2-stage with diode connected -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="two-stage-diode-connected">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/facc15/000000?text=2-Stage+Diode');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-two-stage-diode.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">2-Stage Amplifier with Diode-connected Seconnd Stage</h3>
+                <p>Op-amp topology using diode-connected loads for simplified biasing.</p>
+              </div>
+            </div>
+
+            <!-- Master-slave FF layout -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="master-slave-ff-layout">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/38bdf8/ffffff?text=FF+Layout');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-master-slave-ff-layout.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Master–Slave Flip-Flop Layout</h3>
+                <p>Full custom layout of a master–slave D flip-flop optimized for symmetry.</p>
+              </div>
+            </div>
+
+
+            <!-- CMFB -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="cmfb">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/facc15/000000?text=CMFB+Circuit');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-CMFB.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">CMFB Circuit</h3>
+                <p>Op-amp topology using diode-connected loads for simplified biasing.</p>
+              </div>
+            </div>
+
+            <!-- GMC -->
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="gm-c-filter">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/38bdf8/ffffff?text=Gm-C+Filter');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-gmc.png');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">Gm-C Low Pass Filter</h3>
+                <p>Full custom layout of a master–slave D flip-flop optimized for symmetry.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 3D PRINTABLE SECTION (unchanged) -->
+        <section id="3d-printable" class="searchable-section">
+          <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block mb-8">3D Printable Projects</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="3d-printed-gadgets">
+              <div class="project-flipper">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/f472b6/ffffff?text=3D+Prints');">
+                </div>
+                <div class="project-back" style="background-image: url('images/project-3d-prints.jpeg');"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-heading text-xl text-slate-800 dark:text-white mb-2">3D Printed Gadgets</h3>
+                <p>Practical and fun 3D prints, including a magnetic headphone hanger and a magnetic pen stand.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-8 text-center border-t-4 border-slate-800 dark:border-slate-200 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+    <p class="text-lg">&copy; 2025 Ahmad Ilyas. All rights reserved.</p>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="project-modal" class="fixed inset-0 z-[999] bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="rpg-box bg-white dark:bg-slate-800 border-slate-800 dark:border-slate-200 p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;">
+      <button id="modal-close-button" class="absolute top-4 right-4 text-slate-800 dark:text-slate-200 hover:text-red-500 dark:hover:text-red-400">
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+      <h2 id="modal-project-title" class="font-heading text-3xl mb-4 text-slate-800 dark:text-white">Project Title</h2>
+      <div id="modal-project-image-gallery" class="mb-6 grid grid-cols-2 gap-4">
+      </div>
+      <div id="modal-project-description" class="text-lg leading-relaxed text-slate-700 dark:text-slate-300 mb-6">
+      </div>
+      <div id="modal-project-tech-stack" class="mb-6">
+        <h4 class="font-heading text-xl mb-2 text-slate-800 dark:text-white">Technologies:</h4>
+        <div id="modal-tech-tags" class="flex flex-wrap gap-2">
+        </div>
+      </div>
+      <div id="modal-project-links" class="flex flex-wrap gap-4">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    document.addEventListener("DOMContentLoaded", () => {
+      const htmlEl = document.documentElement;
+      const themeToggle = document.getElementById("theme-toggle");
+      const mobileMenuBtn = document.getElementById("mobile-menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileProjectsBtn = document.getElementById("mobile-projects-button");
+      const mobileProjectsMenu = document.getElementById("mobile-projects-menu");
+
+      function setThemeIconMarkup(mode) {
+        themeToggle.innerHTML = `<i data-lucide="${mode === 'dark' ? 'moon' : 'sun'}" class="w-6 h-6"></i>`;
+        lucide.createIcons();
+      }
+
+      function applyTheme(mode) {
+        htmlEl.classList.toggle("dark", mode === 'dark');
+        localStorage.setItem("theme", mode);
+        setThemeIconMarkup(mode);
+      }
+
+      const initialTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      applyTheme(initialTheme);
+
+      themeToggle.addEventListener("click", () => applyTheme(htmlEl.classList.contains("dark") ? "light" : "dark"));
+      mobileMenuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+      mobileProjectsBtn?.addEventListener("click", () => mobileProjectsMenu.classList.toggle("hidden"));
+
+      function handleSearch(event) {
+        const searchTerm = event.target.value.toLowerCase().trim();
+
+        document.querySelectorAll(".searchable-section").forEach(section => {
+          let sectionMatches = false;
+          const cards = section.querySelectorAll(".searchable-card");
+
+          cards.forEach(card => {
+            const cardText = card.textContent.toLowerCase();
+            if (cardText.includes(searchTerm)) {
+              card.style.display = "";
+              sectionMatches = true;
+            } else {
+              card.style.display = "none";
+            }
+          });
+
+          const title = section.querySelector("h2");
+          if (title && title.textContent.toLowerCase().includes(searchTerm)) {
+            sectionMatches = true;
+            cards.forEach(card => card.style.display = "");
+          }
+
+          if (sectionMatches) {
+            section.style.display = "";
+          } else {
+            section.style.display = "none";
+          }
+        });
+      }
+
+      document.getElementById("search-input")?.addEventListener("input", handleSearch);
+      document.getElementById("mobile-search-input")?.addEventListener("input", handleSearch);
+
+      // --- MODAL & PROJECT DATA JS ---
+
+      const projectsData = {
+        // --- ROBOTICS PROJECTS ---
+        'blinky-2': {
+          title: 'Teleoperation Robot (Blinky 2.0)',
+          images: ['images/project-blinky-2.jpeg'],
+          description: 'The second iteration of the Blinky robot series. It features a teleoperation system that allows the user to control the robot using a VR/XR interface. The robot leverages ROS2 for communication and an ESP32 for hardware interfacing.',
+          tech: ['ROS2', 'VR/XR', 'Teleoperation', 'ESP32', 'Python'],
+          links: []
+        },
+        'blinky-1': {
+          title: 'Mobile Robot (Blinky)',
+          images: ['images/project-blinky-1.jpeg'],
+          description: 'Built specifically for the BlindBot Battle competition at IIT-Delhi Tryst. This robot was designed to navigate and compete in a battle arena, utilizing robust motor drivers and a durable chassis design.',
+          tech: ['Robotics', 'Remote Control', 'Motor Drivers', 'Competition'],
+          links: []
+        },
+        'self-driving': {
+          title: 'Self-Driving Robot',
+          images: ['images/project-self-driving.jpeg'],
+          description: 'An autonomous mobile robot capable of mapping its environment using Lidar and planning paths to avoid obstacles. It uses SLAM algorithms to generate a map and navigate effectively.',
+          tech: ['ROS2', 'Lidar', 'SLAM', 'Navigation', 'Python'],
+          links: []
+        },
+        'quadruped': {
+          title: 'Quadruped Robot',
+          images: ['images/project-quadruped.jpeg'],
+          description: 'A four-legged robot designed to study inverse kinematics and gait generation. It can perform basic walking trots and static stability tests, controlled via a microcontroller.',
+          tech: ['Inverse Kinematics', 'Servo Motors', '3D Printing', 'ESP32'],
+          links: [
+            { name: 'Inspiration', url: 'https://gitlab.com/Vladimir_Glukhov/grobotics-documentation-crawler?fbclid=PAZXh0bgNhZW0CMTEAAaa4sBy4S7qfUnv96LzMfVbeZfhOw2yF6hWtK11Qh2dbiQz-FdeFh7eFCug_aem_AWK7F0Cv9vdIDLQylVMiYdPXbPLKv-H1yFCHoYJfNgp0PBAT6FQaclBxY5u2WoqM1OwMgigmpP36SJyqyCRZGwxy', icon: 'lightbulb' }
+          ]
+        },
+        'soft-actuator': {
+          title: 'Soft Robotic Actuator',
+          images: ['images/project-soft-actuator.jpeg'],
+          description: 'Development of pneumatic soft actuators made from silicone elastomers. These actuators mimic biological muscles to provide compliant gripping for delicate objects, fabricated using custom molds.',
+          tech: ['Soft Robotics', 'Pneumatics', 'Fabrication', 'Materials Science'],
+          links: []
+        },
+        'robot-arm': {
+          title: '5-DOF Robotic Arm',
+          images: ['images/project-robotic-arm.jpg'],
+          description: 'This 5-Degrees of Freedom robotic arm was built using custom 3D printed parts and servo motors. It is controlled wirelessly via Bluetooth from a custom Android application. The app features a simple user interface and implements basic forward kinematics to translate desired end-effector positions into joint angles.',
+          tech: ['Arduino', 'Bluetooth', 'Android App', '3D Printing', 'Forward Kinematics'],
+          links: [
+            { name: 'Inspiration', url: 'https://www.youtube.com/watch?v=_B3gWd3A_SI', icon: 'lightbulb' }
+          ]
+        },
+        'obstacle-robot': {
+          title: 'Obstacle Avoiding Robot (Beetle Bot)',
+          images: ['images/project-obstacle-robot.jpg'],
+          description: 'A simple, autonomous beetle robot designed to navigate environments by avoiding obstacles. This project emphasizes a minimalistic approach, using only SPDT (Single Pole Double Throw) switches to detect collisions and reverse direction.',
+          tech: ['Basic Electronics', 'SPDT Switches', 'DC Motors', 'Mechanical Design'],
+          links: [
+            { name: 'Orginal Instructable', url: 'https://www.instructables.com/How-to-Build-a-Robot-The-BeetleBot-v2-Revisite/', icon: 'lightbulb' }
+          ]
+        },
+        'dd-robocon': {
+          title: 'DD Robocon Robots',
+          images: ['images/project-dd-robocon.jpeg'],
+          description: 'As part of the DD-Robocon 2023 national competition, I contributed to the design and construction of two specialized robots: the "Elephant" and the "Rabbit." The Elephant robot focused on power and object manipulation, while the Rabbit robot excelled in speed.',
+          tech: ['Robotics Competition', 'Mechanical Engineering', 'Electronics Integration', 'Automation'],
+          links: []
+        },
+        'fast-line-follower': {
+          title: 'Fast Line Follower',
+          images: ['images/project-line-follower.jpeg'],
+          description: 'A high-speed line follower robot tuned for sharp turns and rapid lap times in the Technoxian 9.0 competition.',
+          tech: ['PID Control', 'IR Sensors', 'DC Motors', 'Competition'],
+          links: []
+        },
+        'robohockey-bots': {
+          title: 'RoboHockey Bots',
+          images: ['images/project-robo-hockey.jpeg'],
+          description: 'A fleet of compact, agile robots designed for fast-paced RoboHockey matches with emphasis on maneuverability and kicking mechanisms.',
+          tech: ['Robotics', 'Mechanism Design', 'Embedded Systems', 'Team Strategy'],
+          links: []
+        },
+
+        // --- RC PROJECTS ---
+        'rc-plane-flightfury': {
+          title: 'RC Plane for Flightfury',
+          images: ['images/project-rc-plane.jpg'],
+          description: 'A purpose-built 1-meter wingspan RC trainer aircraft designed for the Flightfury competition. This plane features a robust airframe, optimized aerodynamics for stable flight, and a custom-integrated drop mechanism.',
+          tech: ['Aerodynamics', 'RC Electronics', 'CAD Design', 'Flight Control'],
+          links: [
+            { name: 'Project Report', url: 'docs/flightfury-report.pdf', icon: 'file-text' }
+          ]
+        },
+        'rc-plane-ft-flyer': {
+          title: 'RC Plane 1 (FT-Flyer)',
+          images: ['images/project-ft-flyer.jpg'],
+          description: 'My inaugural foray into remote-controlled aircraft building. The FT-Flyer was a challenging but rewarding first project, providing invaluable hands-on experience with foam board construction.',
+          tech: ['Foam Board Construction', 'RC Basics', 'Learning Experience'],
+          links: [
+            { name: 'Inspiration (FliteTest)', url: 'https://www.flitetest.com/articles/ft-flyer-scratch-build', icon: 'lightbulb' }
+          ]
+        },
+        'rc-plane-blu-baby': {
+          title: 'RC Plane 2 (Blu-Baby)',
+          images: ['images/project-blu-baby.jpg'],
+          description: 'Following the FT-Flyer, the Blu-Baby Primary Trainer marked a significant improvement in my RC building skills. This plane offered more stable and predictable flight characteristics.',
+          tech: ['RC Trainer', 'Flight Dynamics', 'Aircraft Assembly'],
+          links: [
+            { name: 'Inspiration (RCGroups)', url: 'https://www.rcgroups.com/forums/showthread.php?t=681556', icon: 'lightbulb' }
+          ]
+        },
+        'rc-plane-ft-explorer': {
+          title: 'Another RC Plane (FT-Explorer)',
+          images: ['images/project-ft-explorer.jpg'],
+          description: 'The FT-Explorer stands as a versatile all-rounder in my RC aircraft collection. Designed for adaptability, it performs well in various flight conditions and serves as a reliable platform for experimenting with different payloads.',
+          tech: ['Versatile RC', 'Flight Performance', 'Modularity'],
+          links: [
+            { name: 'Inspiration (FliteTest)', url: 'https://www.flitetest.com/articles/ft-explorer-build', icon: 'lightbulb' }
+          ]
+        },
+        'rc-plane-blu-baby-v1-5': {
+          title: 'RC Plane 3 (Blu-Baby v1.5)',
+          images: ['images/project-blu-baby-1-5.jpg'],
+          description: 'An incremental revision of the classic Blu-Baby design, focusing on structural reinforcement and a more powerful motor setup for improved performance and wind handling.',
+          tech: ['Aircraft Modification', 'Structural Design', 'Brushless Motors', 'Trainer'],
+          links: []
+        },
+        'rc-plane-blu-baby-v2': {
+          title: 'RC Plane 4 (Blu-Baby v2.0)',
+          images: ['images/project-blu-baby-2.jpg'],
+          description: 'A complete redesign of the trainer plane, transitioning to a different airframe material and incorporating custom 3D-printed parts for better control surface linkage and durability.',
+          tech: ['3D Printing', 'Advanced RC', 'Airframe Design', 'Durability Testing'],
+          links: []
+        },
+        'custom-drone': {
+          title: 'Custom Drone Build',
+          images: ['images/project-drone.jpeg'],
+          description: 'From frame selection to flight controller tuning, this custom-built drone project involved hands-on assembly and calibration of all electronic components for high-performance acrobatic flight.',
+          tech: ['iNav', 'Soldering', 'Flight Controller', 'Quadcopters'],
+          links: []
+        },
+        'rc-hovercrafts': {
+          title: 'RC Hovercrafts',
+          images: ['images/project-hovercraft.jpg'],
+          description: 'A fun project involving the custom design and construction of remote-controlled hovercrafts. These vehicles utilize PVC foam board for their main body and precisely 3D-printed components for the propulsion system.',
+          tech: ['3D Printing', 'RC Control', 'Aerospace Engineering (basic)', 'Prototyping'],
+          links: []
+        },
+
+        // --- ELECTRONICS ---
+        'cs-amplifier': {
+          title: 'CS Cascode Amplifier Design',
+          images: ['images/project-cs-amplifier.png'],
+          description: 'Designed as part of an Analog Design Hackathon, this Common-Source (CS) amplifier achieved impressive performance metrics, including a 35dB voltage gain and an ultra-low power dissipation of 28µW.',
+          tech: ['Analog Design', 'CMOS', 'Transistor Circuits', 'Power Optimization', 'Cadence Virtuoso'],
+          links: []
+        },
+        'smart-switch': {
+          title: 'Smart Switch (Voltsense)',
+          images: ['images/project-smart-switch.png'],
+          description: 'A mains-sensing smart switch that monitors line voltage and controls loads based on safety and automation logic, built around a microcontroller and isolated sensing stage.',
+          tech: ['Microcontroller', 'AC Sensing', 'Isolation', 'Embedded C'],
+          links: []
+        },
+        'broadcasting-system': {
+          title: 'Broadcasting System',
+          images: ['images/project-broadcasting-system.jpeg'],
+          description: 'Campus broadcasting system with microphone preamplifier, mixer, power amplifier and speaker distribution network for clear announcements.',
+          tech: ['Audio Electronics', 'Power Amplifiers', 'Filters', 'PCB Design'],
+          links: []
+        },
+        'folded-cascode': {
+          title: 'Folded Cascode Amplifier',
+          images: ['images/project-folded-cascode.png'],
+          description: 'Folded cascode operational amplifier designed for high gain, large output swing and improved input common-mode range in low-voltage CMOS.',
+          tech: ['Analog IC Design', 'Folded Cascode', 'Cadence Virtuoso', 'Biasing Networks'],
+          links: []
+        },
+        'full-diff-cascode': {
+          title: 'Full-differential Cascode Amplifier with Startup Circuit',
+          images: ['images/project-full-diff-cascode.png'],
+          description: 'Fully differential cascode amplifier with common-mode feedback loop, intended for precision mixed-signal and ADC front-end applications.',
+          tech: ['Differential Amplifiers', 'CMFB', 'Noise Analysis', 'Analog Layout'],
+          links: []
+        },
+        'two-stage-buffer': {
+          title: '2-Stage Amplifier with Voltage Buffer',
+          images: ['images/project-two-stage-buffer.png'],
+          description: 'Two-stage op-amp followed by a source follower buffer to drive capacitive and low-impedance loads without stability loss.',
+          tech: ['Two-stage Op-amp', 'Frequency Compensation', 'Source Follower', 'Load Driving'],
+          links: []
+        },
+        'two-stage-diode-connected': {
+          title: '2-Stage Amplifier with Diode-connected Seconnd Stage',
+          images: ['images/project-two-stage-diode.png'],
+          description: 'Compact two-stage amplifier using diode-connected loads for simplified design, focusing on robustness and area efficiency.',
+          tech: ['Diode-connected Loads', 'CMOS Analog', 'Small-signal Modeling'],
+          links: []
+        },
+        'master-slave-ff-layout': {
+          title: 'Master–Slave Flip-Flop Layout',
+          images: ['images/project-master-slave-ff-layout.png'],
+          description: 'Custom full layout of a master–slave edge-triggered D flip-flop with careful device matching, power routing and clock tree considerations.',
+          tech: ['Digital Layout', 'Flip-Flops', 'Parasitic Extraction', 'Timing'],
+          links: []
+        },
+
+        'cmfb': {
+          title: 'CMFB Circuit ',
+          images: ['images/project-CMFB.png'],
+          description: 'Compact two-stage amplifier using diode-connected loads for simplified design, focusing on robustness and area efficiency.',
+          tech: ['Diode-connected Loads', 'CMOS Analog', 'Small-signal Modeling'],
+          links: []
+        },
+
+        'gm-c-filter': {
+          title: 'Gm-C Low Pass Filter',
+          images: ['images/project-gmc.png'],
+          description: 'Custom full layout of a master–slave edge-triggered D flip-flop with careful device matching, power routing and clock tree considerations.',
+          tech: ['Digital Layout', 'Flip-Flops', 'Parasitic Extraction', 'Timing'],
+          links: []
+        },
+
+        // --- 3D PRINTABLE ---
+        '3d-printed-gadgets': {
+          title: '3D Printed Gadgets',
+          images: ['images/project-3d-prints.jpeg'],
+          description: 'A collection of practical and enjoyable gadgets created using 3D printing. This includes a sleek magnetic headphone hanger for desk organization and a clever magnetic pen stand.',
+          tech: ['3D Printing', 'CAD Design', 'Product Design', 'Functional Prototypes'],
+          links: [
+            { name: '3D Files / Models', url: 'https://www.printables.com/@AhmadIlyas_478694/models', icon: 'box' }
+          ]
+        }
+      };
+
+      const projectModal = document.getElementById('project-modal');
+      const modalCloseButton = document.getElementById('modal-close-button');
+      const modalProjectTitle = document.getElementById('modal-project-title');
+      const modalProjectImageGallery = document.getElementById('modal-project-image-gallery');
+      const modalProjectDescription = document.getElementById('modal-project-description');
+      const modalTechTags = document.getElementById('modal-tech-tags');
+      const modalProjectLinks = document.getElementById('modal-project-links');
+
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const projectId = card.dataset.projectId;
+          const project = projectsData[projectId];
+
+          if (project) {
+            modalProjectTitle.textContent = project.title;
+            modalProjectDescription.innerHTML = `<p>${project.description}</p>`;
+
+            // Clear previous images and add new ones
+            modalProjectImageGallery.innerHTML = '';
+            project.images.forEach(imgSrc => {
+              const imgDiv = document.createElement('div');
+              // STRICT 4:3 RATIO FIX FOR MODAL
+              imgDiv.className = 'w-full bg-cover bg-center rounded-md border-2 border-slate-300 dark:border-slate-600';
+              imgDiv.style.aspectRatio = '4 / 3';
+              imgDiv.style.width = '100%';
+              imgDiv.style.backgroundImage = `url('${imgSrc}')`;
+
+              const img = new Image();
+              img.src = imgSrc;
+              img.onerror = () => {
+                imgDiv.style.backgroundImage = `url('https://placehold.co/400x300/cccccc/ffffff?text=Image+Not+Found')`;
+              };
+              modalProjectImageGallery.appendChild(imgDiv);
+            });
+
+            if (project.images.length === 1) {
+              modalProjectImageGallery.classList.remove('grid-cols-2');
+              modalProjectImageGallery.classList.add('grid-cols-1');
+            } else {
+              modalProjectImageGallery.classList.remove('grid-cols-1');
+              modalProjectImageGallery.classList.add('grid-cols-2');
+            }
+
+            // Clear previous tags and add new ones
+            modalTechTags.innerHTML = '';
+            project.tech.forEach(tag => {
+              const tagSpan = document.createElement('span');
+              tagSpan.className = 'inline-block bg-cyan-200 dark:bg-cyan-700 text-cyan-800 dark:text-cyan-100 text-sm px-3 py-1 rounded-full font-bold';
+              tagSpan.textContent = tag;
+              modalTechTags.appendChild(tagSpan);
+            });
+
+            // Clear previous links and add new ones
+            modalProjectLinks.innerHTML = '';
+            project.links.forEach(link => {
+              const linkA = document.createElement('a');
+              linkA.href = link.url;
+              linkA.target = '_blank';
+              linkA.rel = 'noopener noreferrer';
+              linkA.className = 'inline-flex items-center bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600';
+              linkA.innerHTML = `<i data-lucide="${link.icon}" class="w-5 h-5 mr-2"></i>${link.name}`;
+              modalProjectLinks.appendChild(linkA);
+            });
+            lucide.createIcons();
+
+            projectModal.classList.remove('hidden');
+            projectModal.classList.add('flex');
+            htmlEl.classList.add('overflow-hidden');
+          }
+        });
+      });
+
+      modalCloseButton.addEventListener('click', () => {
+        projectModal.classList.add('hidden');
+        projectModal.classList.remove('flex');
+        htmlEl.classList.remove('overflow-hidden');
+      });
+
+      projectModal.addEventListener('click', (event) => {
+        if (event.target === projectModal) {
+          modalCloseButton.click();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !projectModal.classList.contains('hidden')) {
+          modalCloseButton.click();
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
