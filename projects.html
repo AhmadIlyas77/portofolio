@@ -15,6 +15,10 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     h1,
     h2,
     h3,
@@ -55,50 +59,46 @@
     }
 
     /* --- FLIP EFFECT CSS --- */
-.project-flipper {
-  perspective: 1000px;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  position: relative;
-  cursor: pointer;
-}
+    .project-flipper {
+      perspective: 1000px;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      position: relative;
+      cursor: pointer;
+    }
 
-.project-front,
-.project-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  transition: transform 0.6s;
-  background-size: cover;
-  background-position: center;
-  border-radius: 0.25rem;
-}
+    .project-front,
+    .project-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      transition: transform 0.6s;
+      background-size: cover;
+      background-position: center;
+      border-radius: 0.25rem;
+    }
 
-/* front side (text / placeholder) */
-.project-front {
-  transform: rotateY(0deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .project-front {
+      transform: rotateY(0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* back side (your actual project image) */
-.project-back {
-  transform: rotateY(180deg);
-}
+    .project-back {
+      transform: rotateY(180deg);
+    }
 
-/* flip on hover */
-.project-card:hover .project-front {
-  transform: rotateY(180deg);
-}
+    .project-card:hover .project-front {
+      transform: rotateY(180deg);
+    }
 
-.project-card:hover .project-back {
-  transform: rotateY(0deg);
-}
-
+    .project-card:hover .project-back {
+      transform: rotateY(0deg);
+    }
 
     img,
     video {
@@ -106,22 +106,36 @@
       height: auto;
       display: block;
     }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 1.05rem;
+        line-height: 1.4;
+      }
+
+      h1,
+      h2,
+      h3 {
+        text-shadow: 1px 1px #0004;
+      }
+    }
   </style>
 </head>
 
 <body class="text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen flex flex-col">
   <header id="header" class="sticky top-0 z-50 py-4 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-b-4 border-slate-800 dark:border-slate-200">
-    <div class="container mx-auto px-6 flex justify-between items-center">
+    <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
       <a href="index.html" class="text-slate-800 dark:text-white flex items-center">
         <div class="w-12 h-12 bg-cover bg-center" style="background-image: url('images/blinky.png');" role="img" aria-label="Site Logo"></div>
       </a>
       <nav class="hidden md:flex items-center space-x-4 text-lg">
         <a href="index.html#about" class="hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
 
+        <!-- Projects dropdown with clickable parent -->
         <div class="relative group">
-          <button class="text-cyan-500 dark:text-yellow-400 font-bold flex items-center">
+          <a href="projects.html#robotics" class="text-cyan-500 dark:text-yellow-400 font-bold flex items-center">
             Projects <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
-          </button>
+          </a>
           <div class="absolute z-10 -left-4 top-full pt-2 w-48 hidden group-hover:block">
             <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-4 border-slate-800 dark:border-slate-200 rounded-md overflow-hidden">
               <a href="#robotics" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Robotics</a>
@@ -139,14 +153,14 @@
       </nav>
       <div class="flex items-center">
         <div class="relative hidden md:block mr-4">
-          <input type="search" id="search-input" placeholder="Search projects..." class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-48 transition-all duration-300 focus:w-64" />
+          <input type="search" id="search-input" placeholder="Search projects..." class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-44 lg:w-48 transition-all duration-300 focus:w-64" />
           <i data-lucide="search" class="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
         </div>
         <button id="theme-toggle" class="mr-4 text-slate-800 dark:text-slate-200"></button>
         <button id="mobile-menu-button" class="md:hidden text-slate-800 dark:text-slate-200"><i data-lucide="menu"></i></button>
       </div>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 pt-4 space-y-2 text-lg bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+    <div id="mobile-menu" class="hidden md:hidden px-4 sm:px-6 pb-4 pt-4 space-y-2 text-lg bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
       <div class="relative mb-4">
         <input type="search" id="mobile-search-input" placeholder="Search projects..." class="w-full bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-2 pl-10 text-lg" />
         <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
@@ -171,35 +185,43 @@
   </header>
 
   <main class="py-20 flex-grow">
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-4 sm:px-6">
       <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block">Project Compendium</h1>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl text-white bg-black/20 backdrop-blur-sm px-6 py-4 rounded-full inline-block max-w-full break-words">
+          Project Compendium
+        </h1>
       </div>
 
-      <!-- Under Construction notice: text + image on same line -->
+      <!-- Under Construction notice -->
       <div class="flex justify-center mb-12">
-        <div class="inline-flex items-center gap-4">
-          <span class="text-2xl md:text-3xl font-heading">
+        <div class="inline-flex flex-wrap items-center gap-4">
+          <span class="text-2xl md:text-3xl font-heading max-w-full break-words text-center">
             under consctruction
           </span>
           <img
             src="images/under_construction.png"
             alt="Under construction pixel art"
-            class="w-24 md:w-36"
+            class="w-20 sm:w-24 md:w-32"
           />
         </div>
       </div>
 
       <div class="space-y-16">
 
-        <!-- ROBOTICS SECTION (unchanged) -->
+        <!-- ROBOTICS SECTION -->
         <section id="robotics" class="searchable-section">
-          <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block mb-8">Robotics Projects</h2>
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="mb-8">
+            <h2 class="text-2xl sm:text-3xl text-white bg-black/20 backdrop-blur-sm px-6 py-3 rounded-full inline-block max-w-full break-words">
+              Robotics Projects
+            </h2>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="blinky-2">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="blinky-2">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/3b82f6/ffffff?text=Blinky+2.0');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/3b82f6/ffffff?text=Blinky+2.0');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-blinky-2.jpeg');"></div>
               </div>
@@ -209,9 +231,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="blinky-1">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="blinky-1">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/ef4444/ffffff?text=Blinky');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/ef4444/ffffff?text=Blinky');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-blinky-1.jpeg');"></div>
               </div>
@@ -221,9 +245,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="self-driving">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="self-driving">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/10b981/ffffff?text=Self-Driving+Robot');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/10b981/ffffff?text=Self-Driving+Robot');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-self-driving.jpeg');"></div>
               </div>
@@ -233,9 +259,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="quadruped">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="quadruped">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/f59e0b/ffffff?text=Quadruped+Robot');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/f59e0b/ffffff?text=Quadruped+Robot');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-quadruped.jpeg');"></div>
               </div>
@@ -245,9 +273,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="soft-actuator">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="soft-actuator">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/8b5cf6/ffffff?text=Soft+Robot');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/8b5cf6/ffffff?text=Soft+Robot');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-soft-actuator.jpeg');"></div>
               </div>
@@ -257,9 +287,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="robot-arm">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="robot-arm">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/4ade80/ffffff?text=Robo-Arm');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/4ade80/ffffff?text=Robo-Arm');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-robotic-arm.jpg');"></div>
               </div>
@@ -269,9 +301,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="obstacle-robot">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="obstacle-robot">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/f87171/ffffff?text=Beetle-Bot');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/f87171/ffffff?text=Beetle-Bot');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-obstacle-robot.jpg');"></div>
               </div>
@@ -281,9 +315,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="dd-robocon">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="dd-robocon">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/a78bfa/ffffff?text=DD-Robocon');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/a78bfa/ffffff?text=DD-Robocon');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-dd-robocon.jpeg');"></div>
               </div>
@@ -293,9 +329,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="fast-line-follower">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="fast-line-follower">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/e0e7ff/000000?text=Line+Follower');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/e0e7ff/000000?text=Line+Follower');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-line-follower.jpeg');"></div>
               </div>
@@ -305,9 +343,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="robohockey-bots">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="robohockey-bots">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/fff7ed/000000?text=RoboHockey');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/fff7ed/000000?text=RoboHockey');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-robo-hockey.jpeg');"></div>
               </div>
@@ -320,14 +360,20 @@
           </div>
         </section>
 
-        <!-- RC PROJECTS SECTION (unchanged) -->
+        <!-- RC PROJECTS SECTION -->
         <section id="rc-projects" class="searchable-section">
-          <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block mb-8">RC Projects</h2>
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="mb-8">
+            <h2 class="text-2xl sm:text-3xl text-white bg-black/20 backdrop-blur-sm px-6 py-3 rounded-full inline-block max-w-full break-words">
+              RC Projects
+            </h2>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-flightfury">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-flightfury">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=Flightfury');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=Flightfury');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-rc-plane.jpg');"></div>
               </div>
@@ -337,9 +383,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-hovercrafts">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-hovercrafts">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/fbbf24/ffffff?text=Hovercraft');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/fbbf24/ffffff?text=Hovercraft');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-hovercraft.jpg');"></div>
               </div>
@@ -349,9 +397,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-ft-flyer">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-ft-flyer">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=FT-Flyer');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=FT-Flyer');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-ft-flyer.jpg');"></div>
               </div>
@@ -361,9 +411,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=Blu-Baby');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=Blu-Baby');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-blu-baby.jpg');"></div>
               </div>
@@ -373,9 +425,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby-v1-5">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby-v1-5">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/4c7c8c/ffffff?text=Blu-Baby+v1.5');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/4c7c8c/ffffff?text=Blu-Baby+v1.5');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-blu-baby-1-5.jpg');"></div>
               </div>
@@ -385,9 +439,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby-v2">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-blu-baby-v2">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/60a5fa/ffffff?text=Blu-Baby+v2.0');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/60a5fa/ffffff?text=Blu-Baby+v2.0');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-blu-baby-2.jpg');"></div>
               </div>
@@ -397,9 +453,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="custom-drone">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="custom-drone">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/8b5cf6/ffffff?text=Drone');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/8b5cf6/ffffff?text=Drone');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-drone.jpeg');"></div>
               </div>
@@ -409,9 +467,11 @@
               </div>
             </div>
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-ft-explorer">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="rc-plane-ft-explorer">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=FT-Explorer');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/22d3ee/ffffff?text=FT-Explorer');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-ft-explorer.jpg');"></div>
               </div>
@@ -423,15 +483,20 @@
           </div>
         </section>
 
-        <!-- ELECTRONICS SECTION (extended) -->
+        <!-- ELECTRONICS SECTION -->
         <section id="electronics" class="searchable-section">
-          <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block mb-8">Electronics Projects</h2>
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="mb-8">
+            <h2 class="text-2xl sm:text-3xl text-white bg-black/20 backdrop-blur-sm px-6 py-3 rounded-full inline-block max-w-full break-words">
+              Electronics Projects
+            </h2>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <!-- Existing CS Amplifier -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="cs-amplifier">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="cs-amplifier">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/fca5a5/ffffff?text=CS+Amplifier');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/fca5a5/ffffff?text=CS+Amplifier');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-cs-amplifier.png');"></div>
               </div>
@@ -441,10 +506,11 @@
               </div>
             </div>
 
-            <!-- Smart Switch (Voltsense) -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="smart-switch">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="smart-switch">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/bef264/000000?text=Smart+Switch');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/bef264/000000?text=Smart+Switch');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-smart-switch.png');"></div>
               </div>
@@ -454,10 +520,11 @@
               </div>
             </div>
 
-            <!-- Broadcasting System -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="broadcasting-system">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="broadcasting-system">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/f97316/ffffff?text=Broadcasting+System');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/f97316/ffffff?text=Broadcasting+System');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-broadcasting-system.jpeg');"></div>
               </div>
@@ -467,10 +534,11 @@
               </div>
             </div>
 
-            <!-- Folded Cascode Amplifier -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="folded-cascode">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="folded-cascode">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/22c55e/ffffff?text=Folded+Cascode');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/22c55e/ffffff?text=Folded+Cascode');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-folded-cascode.png');"></div>
               </div>
@@ -480,10 +548,11 @@
               </div>
             </div>
 
-            <!-- Full-differential Cascode Amplifier -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="full-diff-cascode">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="full-diff-cascode">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/0ea5e9/ffffff?text=Full+Diff+Cascode');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/0ea5e9/ffffff?text=Full+Diff+Cascode');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-full-diff-cascode.png');"></div>
               </div>
@@ -493,10 +562,11 @@
               </div>
             </div>
 
-            <!-- 2-stage with voltage buffer -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="two-stage-buffer">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="two-stage-buffer">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/a855f7/ffffff?text=2-Stage+Buffer');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/a855f7/ffffff?text=2-Stage+Buffer');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-two-stage-buffer.png');"></div>
               </div>
@@ -506,10 +576,11 @@
               </div>
             </div>
 
-            <!-- 2-stage with diode connected -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="two-stage-diode-connected">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="two-stage-diode-connected">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/facc15/000000?text=2-Stage+Diode');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/facc15/000000?text=2-Stage+Diode');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-two-stage-diode.png');"></div>
               </div>
@@ -519,10 +590,11 @@
               </div>
             </div>
 
-            <!-- Master-slave FF layout -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="master-slave-ff-layout">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="master-slave-ff-layout">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/38bdf8/ffffff?text=FF+Layout');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/38bdf8/ffffff?text=FF+Layout');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-master-slave-ff-layout.png');"></div>
               </div>
@@ -532,11 +604,11 @@
               </div>
             </div>
 
-
-            <!-- CMFB -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="cmfb">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="cmfb">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/facc15/000000?text=CMFB+Circuit');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/facc15/000000?text=CMFB+Circuit');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-CMFB.png');"></div>
               </div>
@@ -546,10 +618,11 @@
               </div>
             </div>
 
-            <!-- GMC -->
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="gm-c-filter">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="gm-c-filter">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/38bdf8/ffffff?text=Gm-C+Filter');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/38bdf8/ffffff?text=Gm-C+Filter');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-gmc.png');"></div>
               </div>
@@ -562,14 +635,20 @@
           </div>
         </section>
 
-        <!-- 3D PRINTABLE SECTION (unchanged) -->
+        <!-- 3D PRINTABLE SECTION -->
         <section id="3d-printable" class="searchable-section">
-          <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block mb-8">3D Printable Projects</h2>
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="mb-8">
+            <h2 class="text-2xl sm:text-3xl text-white bg-black/20 backdrop-blur-sm px-6 py-3 rounded-full inline-block max-w-full break-words">
+              3D Printable Projects
+            </h2>
+          </div>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="3d-printed-gadgets">
+            <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-slate-800 dark:border-slate-200 overflow-hidden searchable-card project-card"
+              style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;" data-project-id="3d-printed-gadgets">
               <div class="project-flipper">
-                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl" style="background-image: url('https://placehold.co/400x300/f472b6/ffffff?text=3D+Prints');">
+                <div class="project-front font-heading text-slate-800 dark:text-white p-4 text-center text-xl"
+                  style="background-image: url('https://placehold.co/400x300/f472b6/ffffff?text=3D+Prints');">
                 </div>
                 <div class="project-back" style="background-image: url('images/project-3d-prints.jpeg');"></div>
               </div>
@@ -592,22 +671,22 @@
 
   <!-- MODAL -->
   <div id="project-modal" class="fixed inset-0 z-[999] bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="rpg-box bg-white dark:bg-slate-800 border-slate-800 dark:border-slate-200 p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;">
+    <!-- WIDER ON DESKTOP, SAME ON MOBILE -->
+    <div
+      class="rpg-box bg-white dark:bg-slate-800 border-slate-800 dark:border-slate-200 p-4 sm:p-6 md:p-8 max-w-2xl md:max-w-3xl lg:max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
+      style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;"
+    >
       <button id="modal-close-button" class="absolute top-4 right-4 text-slate-800 dark:text-slate-200 hover:text-red-500 dark:hover:text-red-400">
         <i data-lucide="x" class="w-8 h-8"></i>
       </button>
-      <h2 id="modal-project-title" class="font-heading text-3xl mb-4 text-slate-800 dark:text-white">Project Title</h2>
-      <div id="modal-project-image-gallery" class="mb-6 grid grid-cols-2 gap-4">
-      </div>
-      <div id="modal-project-description" class="text-lg leading-relaxed text-slate-700 dark:text-slate-300 mb-6">
-      </div>
+      <h2 id="modal-project-title" class="font-heading text-2xl sm:text-3xl mb-4 text-slate-800 dark:text-white">Project Title</h2>
+      <div id="modal-project-image-gallery" class="mb-6 grid grid-cols-2 gap-4"></div>
+      <div id="modal-project-description" class="text-base sm:text-lg leading-relaxed text-slate-700 dark:text-slate-300 mb-6"></div>
       <div id="modal-project-tech-stack" class="mb-6">
         <h4 class="font-heading text-xl mb-2 text-slate-800 dark:text-white">Technologies:</h4>
-        <div id="modal-tech-tags" class="flex flex-wrap gap-2">
-        </div>
+        <div id="modal-tech-tags" class="flex flex-wrap gap-2"></div>
       </div>
-      <div id="modal-project-links" class="flex flex-wrap gap-4">
-      </div>
+      <div id="modal-project-links" class="flex flex-wrap gap-4"></div>
     </div>
   </div>
 
@@ -927,7 +1006,6 @@
             modalProjectImageGallery.innerHTML = '';
             project.images.forEach(imgSrc => {
               const imgDiv = document.createElement('div');
-              // STRICT 4:3 RATIO FIX FOR MODAL
               imgDiv.className = 'w-full bg-cover bg-center rounded-md border-2 border-slate-300 dark:border-slate-600';
               imgDiv.style.aspectRatio = '4 / 3';
               imgDiv.style.width = '100%';

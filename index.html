@@ -17,6 +17,10 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     h1,
     h2,
     h3,
@@ -72,6 +76,40 @@
       transform: translateY(2px);
       box-shadow: inset 0 0 0 4px var(--inner-border-color), 0 0 0 0 #000;
     }
+
+    img,
+    video {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Character Bio text alignment:
+       - Desktop: centered (like original)
+       - Mobile: justified */
+    #about .bio-paragraph {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 48rem; /* optional: keeps lines readable on very wide screens */
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 1.05rem;
+        line-height: 1.4;
+      }
+
+      h1,
+      h2,
+      h3 {
+        text-shadow: 1px 1px #0004;
+      }
+
+      #about .bio-paragraph {
+        text-align: justify;
+      }
+    }
   </style>
 </head>
 
@@ -79,30 +117,34 @@
   <!-- Header -->
   <header id="header"
     class="sticky top-0 z-50 py-4 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-b-4 border-slate-800 dark:border-slate-200">
-    <div class="container mx-auto px-6 flex justify-between items-center">
+    <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
       <a href="index.html" class="text-slate-800 dark:text-white">
         <img src="images/blinky.png" alt="Site Logo" class="w-12 h-12">
       </a>
       <!-- Desktop Navigation -->
       <nav class="hidden md:flex items-center space-x-4 text-lg">
         <a href="index.html#about" class="hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
-        
-        <!-- Projects Dropdown -->
+
+        <!-- Projects Dropdown (clickable parent) -->
         <div class="relative group">
-          <button class="hover:text-cyan-500 dark:hover:text-yellow-400 flex items-center">
+          <a href="projects.html#robotics" class="hover:text-cyan-500 dark:hover:text-yellow-400 flex items-center">
             Projects <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
-          </button>
-          <!-- FIXED: Removed mt-2 and added pt-2 to the div to close the gap -->
+          </a>
           <div class="absolute z-10 -left-4 top-full pt-2 w-48 hidden group-hover:block">
-            <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-4 border-slate-800 dark:border-slate-200 rounded-md overflow-hidden">
-              <a href="projects.html#robotics" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Robotics</a>
-              <a href="projects.html#rc-projects" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">RC Projects</a>
-              <a href="projects.html#electronics" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Electronics</a>
-              <a href="projects.html#3d-printable" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">3D Printable</a>
+            <div
+              class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-4 border-slate-800 dark:border-slate-200 rounded-md overflow-hidden">
+              <a href="projects.html#robotics"
+                class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Robotics</a>
+              <a href="projects.html#rc-projects"
+                class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">RC Projects</a>
+              <a href="projects.html#electronics"
+                class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Electronics</a>
+              <a href="projects.html#3d-printable"
+                class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">3D Printable</a>
             </div>
           </div>
         </div>
-        
+
         <a href="experience.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Experience</a>
         <a href="publications.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Publications</a>
         <a href="achievements.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Achievements</a>
@@ -112,7 +154,7 @@
       <div class="flex items-center">
         <div class="relative hidden md:block mr-4">
           <input type="search" id="search-input" placeholder="Search page..."
-            class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-48 transition-all duration-300 focus:w-64" />
+            class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-44 lg:w-48 transition-all duration-300 focus:w-64" />
           <i data-lucide="search" class="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
         </div>
         <button id="theme-toggle" class="mr-4 text-slate-800 dark:text-slate-200">
@@ -124,25 +166,31 @@
       </div>
     </div>
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 pt-4 space-y-2 text-lg bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+    <div id="mobile-menu"
+      class="hidden md:hidden px-4 sm:px-6 pb-4 pt-4 space-y-2 text-lg bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
       <div class="relative mb-4">
         <input type="search" id="mobile-search-input" placeholder="Search page..."
           class="w-full bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-2 pl-10 text-lg" />
         <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
       </div>
       <a href="index.html#about" class="block hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
-      
+
       <!-- Mobile Projects Dropdown -->
-      <button id="mobile-projects-button" class="flex justify-between items-center w-full hover:text-cyan-500 dark:hover:text-yellow-400">
+      <button id="mobile-projects-button"
+        class="flex justify-between items-center w-full hover:text-cyan-500 dark:hover:text-yellow-400">
         Projects <i data-lucide="chevron-down" class="w-4 h-4"></i>
       </button>
       <div id="mobile-projects-menu" class="hidden pl-4">
-        <a href="projects.html#robotics" class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">Robotics</a>
-        <a href="projects.html#rc-projects" class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">RC Projects</a>
-        <a href="projects.html#electronics" class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">Electronics</a>
-        <a href="projects.html#3d-printable" class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">3D Printable</a>
+        <a href="projects.html#robotics"
+          class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">Robotics</a>
+        <a href="projects.html#rc-projects"
+          class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">RC Projects</a>
+        <a href="projects.html#electronics"
+          class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">Electronics</a>
+        <a href="projects.html#3d-printable"
+          class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400">3D Printable</a>
       </div>
-      
+
       <a href="experience.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Experience</a>
       <a href="publications.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Publications</a>
       <a href="achievements.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Achievements</a>
@@ -153,178 +201,199 @@
 
   <main class="flex-grow">
     <!-- Hero Section -->
-    <section id="hero" class="min-h-[80vh] flex items-center py-20">
-      <div class="container mx-auto px-6 flex flex-col items-center text-center">
-        <div class="inline-block p-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg border-4 border-slate-800 dark:border-slate-200">
+    <section id="hero" class="min-h-[80vh] flex items-center py-16 sm:py-20">
+      <div class="container mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
+        <div
+          class="inline-block p-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg border-4 border-slate-800 dark:border-slate-200">
           <img src="images/ahmadd.png" alt="Portrait of Ahmad Ilyas, Robotics and Electronics Enthusiast"
-            class="w-[280px] h-[370px]" onerror="this.onerror=null;this.src='https://placehold.co/128x128/000/fff?text=AI';" />
+            class="w-48 sm:w-64 md:w-[280px] h-auto mx-auto"
+            onerror="this.onerror=null;this.src='https://placehold.co/128x128/000/fff?text=AI';" />
         </div>
-        <div class="inline-block bg-black/20 backdrop-blur-sm p-4 rounded-lg mt-6">
-          <h1 class="text-4xl md:text-5xl text-white">Ahmad Ilyas</h1>
-          <p class="text-xl md:text-2xl text-white dark:text-yellow-400 font-bold mt-4 font-heading">
-            Robotics & Electronics Enthusiast
+        <div
+          class="inline-block bg-black/20 backdrop-blur-sm p-4 rounded-lg mt-6 max-w-full break-words px-4 sm:px-6">
+          <h1 class="text-3xl sm:text-4xl md:text-5xl text-white max-w-full break-words">
+            Ahmad Ilyas
+          </h1>
+          <p
+            class="text-lg sm:text-xl md:text-2xl text-white dark:text-yellow-400 font-bold mt-4 font-heading max-w-full break-words">
+            Robotics &amp; Electronics Enthusiast
           </p>
         </div>
-        <div class="mt-8 flex justify-center items-center gap-4">
+        <div class="mt-8 flex flex-wrap justify-center items-center gap-4">
           <a href="resume.pdf" target="_blank"
-            class="btn-pixel bg-green-600 dark:bg-indigo-500 text-white border-slate-800 dark:border-slate-200 px-6 py-3"
+            class="btn-pixel bg-green-600 dark:bg-indigo-500 text-white border-slate-800 dark:border-slate-200 px-6 py-3 text-base sm:text-lg"
             style="--inner-border-color: #fff; --dark-inner-border-color: #0f172a;">View Resume</a>
         </div>
-        <div class="flex justify-center space-x-6 mt-10">
+        <div class="flex flex-wrap justify-center gap-6 mt-10">
           <a href="https://www.linkedin.com/in/ahmad-ilyas-b79631278" aria-label="LinkedIn"
             class="text-slate-800 dark:text-white hover:text-cyan-500 dark:hover:text-yellow-400" target="_blank"><i
-              data-lucide="linkedin" class="w-8 h-8"></i></a>
+              data-lucide="linkedin" class="w-7 h-7 sm:w-8 sm:h-8"></i></a>
           <a href="https://www.instagram.com/_ahmad_ilyas_" target="_blank" aria-label="Instagram"
             class="text-slate-800 dark:text-white hover:text-cyan-500 dark:hover:text-yellow-400"><i
-              data-lucide="instagram" class="w-8 h-8"></i></a>
+              data-lucide="instagram" class="w-7 h-7 sm:w-8 sm:h-8"></i></a>
           <a href="mailto:ahmad7.ilyas@gmail.com" aria-label="Email"
-            class="text-slate-800 dark:text-white hover:text-cyan-500 dark:hover:text-yellow-400"><i data-lucide="mail"
-              class="w-8 h-8"></i></a>
+            class="text-slate-800 dark:text-white hover:text-cyan-500 dark:hover:text-yellow-400"><i
+              data-lucide="mail" class="w-7 h-7 sm:w-8 sm:h-8"></i></a>
           <a href="https://github.com/AhmadIlyas77" target="_blank" aria-label="GitHub"
-            class="text-slate-800 dark:text-white hover:text-cyan-500 dark:hover:text-yellow-400"><i data-lucide="github"
-              class="w-8 h-8"></i></a>
+            class="text-slate-800 dark:text-white hover:text-cyan-500 dark:hover:text-yellow-400"><i
+              data-lucide="github" class="w-7 h-7 sm:w-8 sm:h-8"></i></a>
         </div>
       </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20">
-      <div class="container mx-auto px-6">
+    <section id="about" class="py-16 sm:py-20">
+      <div class="container mx-auto px-4 sm:px-6">
         <div
           class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-6 md:p-8 border-slate-800 dark:border-slate-200 searchable-content text-center"
           style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;">
+          <!-- Heading exactly like original (no pill) -->
           <h2 class="text-3xl text-center mb-6 text-slate-800 dark:text-white">
             Character Bio
           </h2>
-          <p class="mb-4">
-            Hello! I’m Ahmad Ilyas, an Electronics and Communication Engineering student at ZHCET, Aligarh Muslim University.
+
+          <!-- Paragraphs: centered on desktop, justified on mobile by CSS -->
+          <p class="mb-4 bio-paragraph">
+            Hello! I’m Ahmad Ilyas, an Electronics and Communication Engineering student at ZHCET, Aligarh Muslim
+            University.
           </p>
-          <p class="mb-4">
-            My main field of interest? Robotics. Everything goes for me, from a soft actuator to a quadruped to a full-on XR Robot. When I'm not trying to make a robot do my bidding, you can find me wrangling analog circuits, sketching out IC designs, or getting lost in the world of embedded systems and IoT. Oh, and I have a full-blown addiction to 3D printing. There’s just something magical about turning digital dreams into tangible objects!
+          <p class="mb-4 bio-paragraph">
+            My main field of interest? Robotics. Everything goes for me, from a soft actuator to a quadruped to a
+            full-on XR Robot. When I'm not trying to make a robot do my bidding, you can find me wrangling analog
+            circuits, sketching out IC designs, or getting lost in the world of embedded systems and IoT. Oh, and I
+            have a full-blown addiction to 3D printing. There’s just something magical about turning digital dreams
+            into tangible objects!
           </p>
-          <p class="mb-4">
-            My off-duty passions include building (and occasionally crashing) RC planes, baking, cooking, and playing too many video games (Could you tell?). I also happen to be a massive weeb and an even bigger foodie.
+          <p class="mb-4 bio-paragraph">
+            My off-duty passions include building (and occasionally crashing) RC planes, baking, cooking, and playing
+            too many video games (Could you tell?). I also happen to be a massive weeb and an even bigger foodie.
           </p>
-          <p class="mb-4">
-            Whether I’m concocting a new robot or attempting the perfect chocolate chip cookie (because why not add a sprinkle of sweetness to engineering?), you can bet I’m always cooking up something exciting.
+          <p class="mb-4 bio-paragraph">
+            Whether I’m concocting a new robot or attempting the perfect chocolate chip cookie (because why not add a
+            sprinkle of sweetness to engineering?), you can bet I’m always cooking up something exciting.
           </p>
         </div>
       </div>
     </section>
 
     <!-- Skill Tree Section -->
-    <section id="skills" class="py-20">
-      <div class="container mx-auto px-6">
+    <section id="skills" class="py-16 sm:py-20">
+      <div class="container mx-auto px-4 sm:px-6">
         <div class="text-center mb-8">
-            <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block">Skill Tree</h2>
+          <h2
+            class="text-2xl sm:text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-full inline-block max-w-full break-words">
+            Skill Tree
+          </h2>
         </div>
-        <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-6 md:p-8 border-slate-800 dark:border-slate-200"
+        <div
+          class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-6 md:p-8 border-slate-800 dark:border-slate-200"
           style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;">
-          <div id="skills-container" class="flex flex-wrap justify-center gap-4 text-center text-lg">
+          <div id="skills-container"
+            class="flex flex-wrap justify-center gap-3 sm:gap-4 text-center text-base sm:text-lg">
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               Python
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               C/C++
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               ROS2
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
-              MATLAB & Simulink
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              MATLAB &amp; Simulink
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               OpenCV
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               Keras
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               PyTorch
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
-              Fusion360 (CAD & CAM)
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              Fusion360 (CAD &amp; CAM)
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               SolidWorks (CAD)
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               Onshape (CAD)
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               Cadence Virtuoso
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               LTSPICE
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               KiCAD (PCB Design)
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               Eagle (PCB Design)
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               3D Printing
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               Gazebo
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               Simsccape Muiltibody
             </div>
             <div
-              class="p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
+              class="px-3 py-2 sm:p-3 bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 searchable-skill hover:scale-105 transition">
               Aeromodelling
             </div>
-           
           </div>
         </div>
       </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20">
-      <div class="container mx-auto px-6">
+    <section id="contact" class="py-16 sm:py-20">
+      <div class="container mx-auto px-4 sm:px-6">
         <div class="text-center mb-8">
-            <h2 class="text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block">
+          <h2
+            class="text-2xl sm:text-3xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-full inline-block max-w-full break-words">
             Send a Scroll
-            </h2>
+          </h2>
         </div>
         <div
           class="rpg-box max-w-xl mx-auto bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-6 md:p-8 border-slate-800 dark:border-slate-200"
           style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;">
           <form action="https://formspree.io/f/mnngybaz" method="POST">
-            <label for="name" class="block mb-2">Your Name:</label>
+            <label for="name" class="block mb-2 text-base sm:text-lg">Your Name:</label>
             <input id="name" name="name" type="text" required
               class="w-full bg-amber-50 dark:bg-slate-700 border-4 border-slate-800 dark:border-slate-200 p-2 mb-4 focus:outline-none focus:border-cyan-500 dark:focus:border-yellow-400" />
 
-            <label for="email" class="block mb-2">Your Email:</label>
+            <label for="email" class="block mb-2 text-base sm:text-lg">Your Email:</label>
             <input id="email" name="email" type="email" required
               class="w-full bg-amber-50 dark:bg-slate-700 border-4 border-slate-800 dark:border-slate-200 p-2 mb-4 focus:outline-none focus:border-cyan-500 dark:focus:border-yellow-400" />
 
-            <label for="message" class="block mb-2">Your Message:</label>
+            <label for="message" class="block mb-2 text-base sm:text-lg">Your Message:</label>
             <textarea id="message" name="message" rows="5" required
               class="w-full bg-amber-50 dark:bg-slate-700 border-4 border-slate-800 dark:border-slate-200 p-2 mb-6 focus:outline-none focus:border-cyan-500 dark:focus:border-yellow-400"></textarea>
 
             <button type="submit"
-              class="btn-pixel bg-cyan-500 text-white border-slate-800 dark:border-slate-200 px-6 py-3 dark:bg-yellow-500 dark:text-slate-900 w-full"
+              class="btn-pixel bg-cyan-500 text-white border-slate-800 dark:border-slate-200 px-6 py-3 dark:bg-yellow-500 dark:text-slate-900 w-full text-base sm:text-lg"
               style="--inner-border-color: #afeeee; --dark-inner-border-color: #1e293b;">
               Send
             </button>
@@ -335,7 +404,8 @@
   </main>
 
   <!-- Footer -->
-  <footer class="py-8 text-center border-t-4 border-slate-800 dark:border-slate-200 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+  <footer
+    class="py-8 text-center border-t-4 border-slate-800 dark:border-slate-200 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
     <p class="text-lg">&copy; 2025 Ahmad Ilyas. All rights reserved.</p>
   </footer>
 
@@ -376,23 +446,23 @@
       });
 
       mobileMenuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
-      
+
       mobileProjectsBtn?.addEventListener("click", () => mobileProjectsMenu.classList.toggle("hidden"));
-      
+
       // Search functionality for both desktop and mobile
       function handleSearch(event) {
-          const searchTerm = event.target.value.toLowerCase().trim();
-          
-          let itemsToSearch = document.querySelectorAll(".searchable-skill, .searchable-content, .searchable-card");
+        const searchTerm = event.target.value.toLowerCase().trim();
 
-          itemsToSearch.forEach((item) => {
-              const itemText = item.textContent.toLowerCase();
-              if (itemText.includes(searchTerm)) {
-                  item.style.display = ""; 
-              } else {
-                  item.style.display = "none";
-              }
-          });
+        let itemsToSearch = document.querySelectorAll(".searchable-skill, .searchable-content, .searchable-card");
+
+        itemsToSearch.forEach((item) => {
+          const itemText = item.textContent.toLowerCase();
+          if (itemText.includes(searchTerm)) {
+            item.style.display = "";
+          } else {
+            item.style.display = "none";
+          }
+        });
       }
 
       const searchInput = document.getElementById("search-input");
@@ -406,4 +476,3 @@
 </body>
 
 </html>
-

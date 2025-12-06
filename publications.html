@@ -13,16 +13,28 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    h1, h2, h3, h4, h5, h6, .font-heading {
+    * {
+      box-sizing: border-box;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .font-heading {
       font-family: "Press Start 2P", cursive;
       text-shadow: 2px 2px #0004;
     }
+
     body {
       font-family: "VT323", monospace;
       font-size: 1.25rem;
       line-height: 1.5;
       image-rendering: pixelated;
     }
+
     html:not(.dark) body {
       background-image: url('images/mario-background-light.png');
       background-size: cover;
@@ -30,6 +42,7 @@
       background-attachment: fixed;
       background-position: center;
     }
+
     html.dark body {
       background-image: url('images/mario-background-dark.png');
       background-size: cover;
@@ -37,26 +50,44 @@
       background-attachment: fixed;
       background-position: center;
     }
+
     .rpg-box {
       border: 4px solid;
       box-shadow: inset 0 0 0 4px var(--inner-border-color);
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 640px) {
+      body {
+        font-size: 1.05rem;
+        line-height: 1.4;
+      }
+
+      h1,
+      h2,
+      h3 {
+        text-shadow: 1px 1px #0004;
+      }
     }
   </style>
 </head>
 
 <body class="text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen flex flex-col">
+  <!-- Header -->
   <header id="header" class="sticky top-0 z-50 py-4 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-b-4 border-slate-800 dark:border-slate-200">
-    <div class="container mx-auto px-6 flex justify-between items-center">
-      <a href="index.html" class="text-slate-800 dark:text-white">
+    <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+      <a href="index.html" class="text-slate-800 dark:text-white flex items-center">
         <img src="images/blinky.png" alt="Site Logo" class="w-12 h-12">
       </a>
+      <!-- Desktop Navigation -->
       <nav class="hidden md:flex items-center space-x-4 text-lg">
         <a href="index.html#about" class="hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
-        
+
+        <!-- Projects Dropdown (clickable parent) -->
         <div class="relative group">
-          <button class="hover:text-cyan-500 dark:hover:text-yellow-400 flex items-center">
+          <a href="projects.html#robotics" class="hover:text-cyan-500 dark:hover:text-yellow-400 flex items-center">
             Projects <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
-          </button>
+          </a>
           <div class="absolute z-10 -left-4 top-full pt-2 w-48 hidden group-hover:block">
             <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-4 border-slate-800 dark:border-slate-200 rounded-md overflow-hidden">
               <a href="projects.html#robotics" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Robotics</a>
@@ -66,7 +97,7 @@
             </div>
           </div>
         </div>
-        
+
         <a href="experience.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Experience</a>
         <a href="publications.html" class="text-cyan-500 dark:text-yellow-400 font-bold">Publications</a>
         <a href="achievements.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Achievements</a>
@@ -74,21 +105,39 @@
       </nav>
       <div class="flex items-center">
         <div class="relative hidden md:block mr-4">
-          <input type="search" id="search-input" placeholder="Search publications..." class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-48 transition-all duration-300 focus:w-64" />
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search publications..."
+            class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-44 lg:w-48 transition-all duration-300 focus:w-64"
+          />
           <i data-lucide="search" class="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
         </div>
         <button id="theme-toggle" class="mr-4 text-slate-800 dark:text-slate-200"></button>
-        <button id="mobile-menu-button" class="md:hidden text-slate-800 dark:text-slate-200"><i data-lucide="menu"></i></button>
+        <button id="mobile-menu-button" class="md:hidden text-slate-800 dark:text-slate-200">
+          <i data-lucide="menu"></i>
+        </button>
       </div>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 pt-4 space-y-2 text-lg bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 sm:px-6 pb-4 pt-4 space-y-2 text-lg bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
       <div class="relative mb-4">
-        <input type="search" id="mobile-search-input" placeholder="Search publications..." class="w-full bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-2 pl-10 text-lg" />
+        <input
+          type="search"
+          id="mobile-search-input"
+          placeholder="Search publications..."
+          class="w-full bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-2 pl-10 text-lg"
+        />
         <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
       </div>
       <a href="index.html#about" class="block hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
-      
-      <button id="mobile-projects-button" class="flex justify-between items-center w-full hover:text-cyan-500 dark:hover:text-yellow-400">
+
+      <!-- Mobile Projects Dropdown -->
+      <button
+        id="mobile-projects-button"
+        class="flex justify-between items-center w-full hover:text-cyan-500 dark:hover:text-yellow-400"
+      >
         Projects <i data-lucide="chevron-down" class="w-4 h-4"></i>
       </button>
       <div id="mobile-projects-menu" class="hidden pl-4">
@@ -101,106 +150,157 @@
       <a href="experience.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Experience</a>
       <a href="publications.html" class="block text-cyan-500 dark:text-yellow-400 font-bold">Publications</a>
       <a href="achievements.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Achievements</a>
-      <a href="index.html#contact" class="block text-center mt-2 bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600">Contact</a>
+      <a
+        href="index.html#contact"
+        class="block text-center mt-2 bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600"
+      >
+        Contact
+      </a>
     </div>
   </header>
 
   <main class="py-20 flex-grow">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block">Research Scrolls</h1>
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12 px-2">
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl text-white bg-black/20 backdrop-blur-sm px-6 py-4 rounded-full inline-block max-w-full break-words mx-auto"
+        >
+          Research Scrolls
+        </h1>
       </div>
-      
-      <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-6 md:p-8 border-slate-800 dark:border-slate-200 space-y-6" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;">
-        
+
+      <div
+        class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-6 md:p-8 border-slate-800 dark:border-slate-200 space-y-8"
+        style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;"
+      >
         <!-- Publication 1 -->
         <div class="searchable-content">
-          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white">
-            High-PSRR, Ultra-Low Quiescent Current, Capless LDO Regulator Using a Self-Biased Recycling Folded-Cascode Error Amplifier in 90nm CMOS
+          <h2 class="font-heading text-2xl mb-3 text-slate-800 dark:text-white break-words">
+            High-PSRR, Ultra-Low Quiescent Current, Capless LDO Regulator Using a Self-Biased Recycling Folded-Cascode
+            Error Amplifier in 90nm CMOS
           </h2>
-          <p class="mb-2">
-            <strong>Conference:</strong> DELCON 2025
+          <p class="mb-1 text-lg">
+            <span class="font-semibold">Conference:</span> DELCON 2025
           </p>
-          <p class="mb-4">
-            <strong>Status:</strong> Presented
+          <p class="mb-4 text-lg">
+            <span class="font-semibold">Status:</span>
+            <span
+              class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-200 text-emerald-900 dark:bg-emerald-700 dark:text-emerald-50 ml-2"
+            >
+              Presented
+            </span>
           </p>
-          <p class="mb-4">
-            A. Ilyas, A. Khan, N. Alam, G.S. Javed, "High-PSRR, Ultra-Low Quiescent Current, Capless LDO Regulator Using a Self-Biased Recycling Folded-Cascode Error Amplifier in 90nm CMOS"
+          <p class="mb-4 break-words">
+            A. Ilyas, A. Khan, N. Alam, G.S. Javed, "High-PSRR, Ultra-Low Quiescent Current, Capless LDO Regulator Using
+            a Self-Biased Recycling Folded-Cascode Error Amplifier in 90nm CMOS"
           </p>
-          <a href="certificate/DELCON2025PID518.pdf" target="_blank" class="inline-flex items-center bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600">
+          <a
+            href="certificate/DELCON2025PID518.pdf"
+            target="_blank"
+            class="inline-flex items-center bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600"
+          >
             <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>View Certificate
           </a>
         </div>
 
         <!-- Publication 2 -->
         <div class="searchable-content">
-          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white">
+          <h2 class="font-heading text-2xl mb-3 text-slate-800 dark:text-white break-words">
             Fine-tuning Text-to-Speech Models for English Technical Speech and Regional Languages
           </h2>
-          <p class="mb-2">
-            <strong>REU:</strong> APJ Abdul Kalam STEM-ER Centre Indo-US Collaboration - Research Experience for Undergraduate (REU-IV)
+          <p class="mb-1 text-lg">
+            <span class="font-semibold">REU:</span>
+            APJ Abdul Kalam STEM-ER Centre Indo-US Collaboration – Research Experience for Undergraduate (REU-IV)
           </p>
-          <p class="mb-4">
-            <strong>Status:</strong> Presented
+          <p class="mb-4 text-lg">
+            <span class="font-semibold">Status:</span>
+            <span
+              class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-200 text-emerald-900 dark:bg-emerald-700 dark:text-emerald-50 ml-2"
+            >
+              Presented
+            </span>
           </p>
-          <p class="mb-4">
-            A.S. Mohsin, S.F. Ayazi, A. Ilyas, "Fine-tuning Text-to-Speech Models for English Technical Speech and Regional Languages"
+          <p class="mb-4 break-words">
+            A.S. Mohsin, S.F. Ayazi, A. Ilyas, "Fine-tuning Text-to-Speech Models for English Technical Speech and
+            Regional Languages"
           </p>
-          <a href="certificate/osu.pdf" target="_blank" class="inline-flex items-center bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600">
+          <a
+            href="certificate/osu.pdf"
+            target="_blank"
+            class="inline-flex items-center bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600"
+          >
             <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>View Certificate
           </a>
         </div>
-        
-        <hr class="border-slate-300 dark:border-slate-600">
+
+        <hr class="border-slate-300 dark:border-slate-600" />
 
         <!-- Publication 3 -->
         <div class="searchable-content">
-          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white">
+          <h2 class="font-heading text-2xl mb-3 text-slate-800 dark:text-white break-words">
             Low-Latency AR Teleoperation for Mobile Robots via Direct Input Mapping and mDNS-Stabilized Communication
           </h2>
-          <p class="mb-2">
-            <strong>Conference:</strong> ICRCA 2026
+          <p class="mb-1 text-lg">
+            <span class="font-semibold">Conference:</span> ICRCA 2026
           </p>
-          <p class="mb-4">
-            <strong>Status:</strong> Under Review
+          <p class="mb-4 text-lg">
+            <span class="font-semibold">Status:</span>
+            <span
+              class="inline-flex items-center px-3 py-1 rounded-full bg-amber-200 text-amber-900 dark:bg-amber-700 dark:text-amber-50 ml-2"
+            >
+              Under Review
+            </span>
           </p>
-          <p class="mb-4">
-            A. Ilyas, U.A. Khan, "Low-Latency AR Teleoperation for Mobile Robots via Direct Input Mapping and mDNS-Stabilized Communication"
+          <p class="mb-4 break-words">
+            A. Ilyas, U.A. Khan, "Low-Latency AR Teleoperation for Mobile Robots via Direct Input Mapping and
+            mDNS-Stabilized Communication"
           </p>
         </div>
 
         <!-- Publication 4 -->
         <div class="searchable-content">
-          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white">
-            VoltSense: A Cloud-Native Smart Switch with AI-Powered Anomaly Detection for Enhanced Home Safety and Energy Management
+          <h2 class="font-heading text-2xl mb-3 text-slate-800 dark:text-white break-words">
+            VoltSense: A Cloud-Native Smart Switch with AI-Powered Anomaly Detection for Enhanced Home Safety and
+            Energy Management
           </h2>
-          <p class="mb-2">
-            <strong>Conference:</strong> IMPACT 2026
+          <p class="mb-1 text-lg">
+            <span class="font-semibold">Conference:</span> IMPACT 2026
           </p>
-          <p class="mb-4">
-            <strong>Status:</strong> Under Review
+          <p class="mb-4 text-lg">
+            <span class="font-semibold">Status:</span>
+            <span
+              class="inline-flex items-center px-3 py-1 rounded-full bg-amber-200 text-amber-900 dark:bg-amber-700 dark:text-amber-50 ml-2"
+            >
+              Under Review
+            </span>
           </p>
-          <p class="mb-4">
-            A. Soni, A. Ilyas, S. Ahmad, Z. Ali, "VoltSense: A Cloud-Native Smart Switch with AI-Powered Anomaly Detection for Enhanced Home Safety and Energy Management"
+          <p class="mb-4 break-words">
+            A. Soni, A. Ilyas, S. Ahmad, Z. Ali, "VoltSense: A Cloud-Native Smart Switch with AI-Powered Anomaly
+            Detection for Enhanced Home Safety and Energy Management"
           </p>
         </div>
 
         <!-- Publication 5 -->
         <div class="searchable-content">
-          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white">
+          <h2 class="font-heading text-2xl mb-3 text-slate-800 dark:text-white break-words">
             A Low Quiescent Current, High PSR LDO Regulator Design in 130 nm CMOS Technology
           </h2>
-          <p class="mb-2">
-            <strong>Conference:</strong> IMPACT 2026
+          <p class="mb-1 text-lg">
+            <span class="font-semibold">Conference:</span> IMPACT 2026
           </p>
-          <p class="mb-4">
-            <strong>Status:</strong> Under Review
+          <p class="mb-4 text-lg">
+            <span class="font-semibold">Status:</span>
+            <span
+              class="inline-flex items-center px-3 py-1 rounded-full bg-amber-200 text-amber-900 dark:bg-amber-700 dark:text-amber-50 ml-2"
+            >
+              Under Review
+            </span>
           </p>
-          <p class="mb-4">
-            M.G. Husain, M.M. Khan, A. Ilyas, N. Alam, "A Low Quiescent Current, High PSR LDO Regulator Design in 130 nm CMOS Technology"
+          <p class="mb-4 break-words">
+            M.G. Husain, M.M. Khan, A. Ilyas, N. Alam, "A Low Quiescent Current, High PSR LDO Regulator Design in 130 nm
+            CMOS Technology"
           </p>
         </div>
-
       </div>
     </div>
   </main>
@@ -225,21 +325,29 @@
       }
 
       function applyTheme(mode) {
-        htmlEl.classList.toggle("dark", mode === 'dark');
+        htmlEl.classList.toggle("dark", mode === "dark");
         localStorage.setItem("theme", mode);
         setThemeIconMarkup(mode);
       }
 
-      const initialTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const initialTheme =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       applyTheme(initialTheme);
 
-      themeToggle.addEventListener("click", () => applyTheme(htmlEl.classList.contains("dark") ? "light" : "dark"));
-      mobileMenuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
-      mobileProjectsBtn?.addEventListener("click", () => mobileProjectsMenu.classList.toggle("hidden"));
+      themeToggle.addEventListener("click", () =>
+        applyTheme(htmlEl.classList.contains("dark") ? "light" : "dark")
+      );
+      mobileMenuBtn.addEventListener("click", () =>
+        mobileMenu.classList.toggle("hidden")
+      );
+      mobileProjectsBtn?.addEventListener("click", () =>
+        mobileProjectsMenu.classList.toggle("hidden")
+      );
 
       function handleSearch(event) {
         const searchTerm = event.target.value.toLowerCase().trim();
-        document.querySelectorAll(".searchable-content").forEach(content => {
+        document.querySelectorAll(".searchable-content").forEach((content) => {
           content.style.display = content.textContent.toLowerCase().includes(searchTerm) ? "" : "none";
         });
       }

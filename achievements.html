@@ -13,16 +13,28 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    h1, h2, h3, h4, h5, h6, .font-heading {
+    * {
+      box-sizing: border-box;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .font-heading {
       font-family: "Press Start 2P", cursive;
       text-shadow: 2px 2px #0004;
     }
+
     body {
       font-family: "VT323", monospace;
       font-size: 1.25rem;
       line-height: 1.5;
       image-rendering: pixelated;
     }
+
     html:not(.dark) body {
       background-image: url('images/mario-background-light.png');
       background-size: cover;
@@ -30,6 +42,7 @@
       background-attachment: fixed;
       background-position: center;
     }
+
     html.dark body {
       background-image: url('images/mario-background-dark.png');
       background-size: cover;
@@ -37,88 +50,207 @@
       background-attachment: fixed;
       background-position: center;
     }
+
     .rpg-box {
       border: 4px solid;
       box-shadow: inset 0 0 0 4px var(--inner-border-color);
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 640px) {
+      body {
+        font-size: 1.05rem;
+        line-height: 1.4;
+      }
+
+      h1,
+      h2,
+      h3 {
+        text-shadow: 1px 1px #0004;
+      }
     }
   </style>
 </head>
 
 <body class="text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen flex flex-col">
   <!-- Header -->
-  <header id="header" class="sticky top-0 z-50 py-4 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-b-4 border-slate-800 dark:border-slate-200">
-    <div class="container mx-auto px-6 flex justify-between items-center">
-      <a href="index.html" class="text-slate-800 dark:text-white">
-        <img src="images/blinky.png" alt="Site Logo" class="w-12 h-12">
+  <header
+    id="header"
+    class="sticky top-0 z-50 py-4 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border-b-4 border-slate-800 dark:border-slate-200"
+  >
+    <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+      <a href="index.html" class="text-slate-800 dark:text-white flex items-center">
+        <img src="images/blinky.png" alt="Site Logo" class="w-12 h-12" />
       </a>
+
+      <!-- Desktop Navigation -->
       <nav class="hidden md:flex items-center space-x-4 text-lg">
         <a href="index.html#about" class="hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
-        
-        <!-- Projects Dropdown -->
+
+        <!-- Projects Dropdown (clickable parent) -->
         <div class="relative group">
-          <button class="hover:text-cyan-500 dark:hover:text-yellow-400 flex items-center">
+          <a href="projects.html#robotics" class="hover:text-cyan-500 dark:hover:text-yellow-400 flex items-center">
             Projects <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
-          </button>
-          <!-- FIXED: Removed mt-2 and added pt-2 to the div to close the gap -->
+          </a>
           <div class="absolute z-10 -left-4 top-full pt-2 w-48 hidden group-hover:block">
-            <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-4 border-slate-800 dark:border-slate-200 rounded-md overflow-hidden">
-              <a href="projects.html#robotics" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Robotics</a>
-              <a href="projects.html#rc-projects" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">RC Projects</a>
-              <a href="projects.html#electronics" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">Electronics</a>
-              <a href="projects.html#3d-printable" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700">3D Printable</a>
+            <div
+              class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-4 border-slate-800 dark:border-slate-200 rounded-md overflow-hidden"
+            >
+              <a
+                href="projects.html#robotics"
+                class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700"
+                >Robotics</a
+              >
+              <a
+                href="projects.html#rc-projects"
+                class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700"
+                >RC Projects</a
+              >
+              <a
+                href="projects.html#electronics"
+                class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700"
+                >Electronics</a
+              >
+              <a
+                href="projects.html#3d-printable"
+                class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-slate-700"
+                >3D Printable</a
+              >
             </div>
           </div>
         </div>
-        
+
         <a href="experience.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Experience</a>
         <a href="publications.html" class="hover:text-cyan-500 dark:hover:text-yellow-400">Publications</a>
         <a href="achievements.html" class="text-cyan-500 dark:text-yellow-400 font-bold">Achievements</a>
-        <a href="index.html#contact" class="bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600">Contact</a>
+        <a
+          href="index.html#contact"
+          class="bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600"
+        >
+          Contact
+        </a>
       </nav>
+
       <div class="flex items-center">
         <div class="relative hidden md:block mr-4">
-          <input type="search" id="search-input" placeholder="Search achievements..." class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-48 transition-all duration-300 focus:w-64" />
-          <i data-lucide="search" class="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search achievements..."
+            class="bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-1 pl-8 text-lg w-44 lg:w-48 transition-all duration-300 focus:w-64"
+          />
+          <i
+            data-lucide="search"
+            class="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"
+          ></i>
         </div>
         <button id="theme-toggle" class="mr-4 text-slate-800 dark:text-slate-200"></button>
-        <button id="mobile-menu-button" class="md:hidden text-slate-800 dark:text-slate-200"><i data-lucide="menu"></i></button>
+        <button id="mobile-menu-button" class="md:hidden text-slate-800 dark:text-slate-200">
+          <i data-lucide="menu"></i>
+        </button>
       </div>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 pt-4 space-y-2 text-lg">
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden px-4 sm:px-6 pb-4 pt-4 space-y-2 text-lg bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm"
+    >
       <div class="relative mb-4">
-        <input type="search" id="mobile-search-input" placeholder="Search achievements..." class="w-full bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-2 pl-10 text-lg" />
-        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+        <input
+          type="search"
+          id="mobile-search-input"
+          placeholder="Search achievements..."
+          class="w-full bg-amber-50 dark:bg-slate-700 border-2 border-slate-800 dark:border-slate-200 p-2 pl-10 text-lg"
+        />
+        <i
+          data-lucide="search"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"
+        ></i>
       </div>
       <a href="index.html#about" class="block hover:text-cyan-500 dark:hover:text-yellow-400">About</a>
-      <a href="projects.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Projects</a>
+
+      <!-- Mobile Projects Dropdown -->
+      <button
+        id="mobile-projects-button"
+        class="flex justify-between items-center w-full hover:text-cyan-500 dark:hover:text-yellow-400"
+      >
+        Projects <i data-lucide="chevron-down" class="w-4 h-4"></i>
+      </button>
+      <div id="mobile-projects-menu" class="hidden pl-4">
+        <a
+          href="projects.html#robotics"
+          class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400"
+          >Robotics</a
+        >
+        <a
+          href="projects.html#rc-projects"
+          class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400"
+          >RC Projects</a
+        >
+        <a
+          href="projects.html#electronics"
+          class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400"
+          >Electronics</a
+        >
+        <a
+          href="projects.html#3d-printable"
+          class="block py-1 hover:text-cyan-500 dark:hover:text-yellow-400"
+          >3D Printable</a
+        >
+      </div>
+
       <a href="experience.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Experience</a>
       <a href="publications.html" class="block hover:text-cyan-500 dark:hover:text-yellow-400">Publications</a>
       <a href="achievements.html" class="block text-cyan-500 dark:text-yellow-400 font-bold">Achievements</a>
-      <a href="index.html#contact" class="block text-center mt-2 bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600">Contact</a>
+      <a
+        href="index.html#contact"
+        class="block text-center mt-2 bg-cyan-500 text-white px-4 py-2 hover:bg-cyan-600 dark:bg-yellow-500 dark:text-slate-900 dark:hover:bg-yellow-600"
+      >
+        Contact
+      </a>
     </div>
   </header>
 
   <main class="py-20 flex-grow">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl text-white bg-black/20 backdrop-blur-sm p-4 rounded-lg inline-block">Hall of Fame</h1>
+    <div class="container mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12 px-2">
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl text-white bg-black/20 backdrop-blur-sm px-6 py-4 rounded-full inline-block max-w-full break-words mx-auto"
+        >
+          Hall of Fame
+        </h1>
       </div>
-      
-      <div class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-6 md:p-8 border-slate-800 dark:border-slate-200 space-y-6" style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;">
+
+      <div
+        class="rpg-box bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-6 md:p-8 border-slate-800 dark:border-slate-200 space-y-6"
+        style="--inner-border-color: #fef3c7; --dark-inner-border-color: #1e293b;"
+      >
         <div class="searchable-content">
-          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white">DD-Robocon 2023</h2>
-          <p>Our team scored a perfect 100/100 in the first round of the competition.</p>
+          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white break-words">DD-Robocon 2023</h2>
+          <p class="break-words">
+            Our team scored a perfect 100/100 in the first round of the competition.
+          </p>
         </div>
-        <hr class="border-slate-300 dark:border-slate-600">
+
+        <hr class="border-slate-300 dark:border-slate-600" />
+
         <div class="searchable-content">
-          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white">Analog Design Hackathon Winner</h2>
-          <p>Designed a Common Source (CS) amplifier with 35db gain and an impressive 28uW power dissipation, securing first place.</p>
+          <h2 class="font-heading text-2xl mb-2 text-slate-800 dark:text-white break-words">
+            Analog Design Hackathon Winner
+          </h2>
+          <p class="break-words">
+            Designed a Common Source (CS) amplifier with 35 dB gain and an impressive 28 µW power dissipation,
+            securing first place.
+          </p>
         </div>
       </div>
     </div>
   </main>
 
-  <footer class="py-8 text-center border-t-4 border-slate-800 dark:border-slate-200 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm">
+  <footer
+    class="py-8 text-center border-t-4 border-slate-800 dark:border-slate-200 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm"
+  >
     <p class="text-lg">&copy; 2025 Ahmad Ilyas. All rights reserved.</p>
   </footer>
 
@@ -129,29 +261,42 @@
       const themeToggle = document.getElementById("theme-toggle");
       const mobileMenuBtn = document.getElementById("mobile-menu-button");
       const mobileMenu = document.getElementById("mobile-menu");
+      const mobileProjectsBtn = document.getElementById("mobile-projects-button");
+      const mobileProjectsMenu = document.getElementById("mobile-projects-menu");
 
       function setThemeIconMarkup(mode) {
-        themeToggle.innerHTML = `<i data-lucide="${mode === 'dark' ? 'moon' : 'sun'}" class="w-6 h-6"></i>`;
+        themeToggle.innerHTML = `<i data-lucide="${
+          mode === "dark" ? "moon" : "sun"
+        }" class="w-6 h-6"></i>`;
         lucide.createIcons();
       }
 
       function applyTheme(mode) {
-        htmlEl.classList.toggle("dark", mode === 'dark');
+        htmlEl.classList.toggle("dark", mode === "dark");
         localStorage.setItem("theme", mode);
         setThemeIconMarkup(mode);
       }
 
-      const initialTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const initialTheme =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       applyTheme(initialTheme);
 
-      themeToggle.addEventListener("click", () => applyTheme(htmlEl.classList.contains("dark") ? "light" : "dark"));
-      mobileMenuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+      themeToggle.addEventListener("click", () =>
+        applyTheme(htmlEl.classList.contains("dark") ? "light" : "dark")
+      );
+      mobileMenuBtn.addEventListener("click", () =>
+        mobileMenu.classList.toggle("hidden")
+      );
+      mobileProjectsBtn?.addEventListener("click", () =>
+        mobileProjectsMenu.classList.toggle("hidden")
+      );
 
       function handleSearch(event) {
-          const searchTerm = event.target.value.toLowerCase().trim();
-          document.querySelectorAll(".searchable-content").forEach(content => {
-              content.style.display = content.textContent.toLowerCase().includes(searchTerm) ? "" : "none";
-          });
+        const searchTerm = event.target.value.toLowerCase().trim();
+        document.querySelectorAll(".searchable-content").forEach((content) => {
+          content.style.display = content.textContent.toLowerCase().includes(searchTerm) ? "" : "none";
+        });
       }
 
       document.getElementById("search-input")?.addEventListener("input", handleSearch);
@@ -160,4 +305,3 @@
   </script>
 </body>
 </html>
-
