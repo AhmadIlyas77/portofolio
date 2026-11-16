@@ -1,0 +1,55 @@
+*{box-sizing:border-box}
+html{background:#87ceeb;scroll-padding-top:6rem}
+html.dark{background:#0f172a}
+h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Press Start 2P",cursive;text-shadow:2px 2px #0004;line-height:1.45}
+body{font-family:"VT323",monospace;font-size:1.25rem;line-height:1.5;image-rendering:pixelated;position:relative}
+/* Fixed background via pseudo-element (background-attachment:fixed is unreliable on iOS) */
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:url('images/mario-background-light.png') center/cover no-repeat}
+html.dark body::before{background-image:url('images/mario-background-dark.png')}
+.rpg-box{--inner-border-color:#fef3c7;border:4px solid #1e293b;box-shadow:inset 0 0 0 4px var(--inner-border-color)}
+html.dark .rpg-box{--inner-border-color:#1e293b;border-color:#e2e8f0}
+.btn-pixel{--inner-border-color:#fff;border:4px solid #1e293b;box-shadow:inset 0 0 0 4px var(--inner-border-color);transition:transform .1s ease-out}
+html.dark .btn-pixel{--inner-border-color:#0f172a;border-color:#e2e8f0}
+.btn-pixel:hover{transform:translateY(-2px)}
+.btn-pixel:active{transform:translateY(2px)}
+img,video{max-width:100%;height:auto;display:block}
+:focus-visible{outline:3px solid #06b6d4;outline-offset:2px}
+html.dark :focus-visible{outline-color:#facc15}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.project-card{transition:transform .15s ease-out}
+.project-card:hover{transform:translateY(-3px)}
+#about .bio-paragraph{text-align:center;margin-left:auto;margin-right:auto;max-width:48rem}
+@media (max-width:640px){
+  body{font-size:1.05rem;line-height:1.4}
+  h1,h2,h3{text-shadow:1px 1px #0004}
+  #about .bio-paragraph{text-align:justify}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ---------- Animations (stepped timing keeps the pixel feel) ---------- */
+@keyframes pop{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes spin-step{to{transform:rotate(360deg)}}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+.reveal{opacity:0}
+.reveal.in{opacity:1;animation:pop .45s steps(6) backwards;animation-delay:var(--d,0ms)}
+
+.float{animation:bob 2.4s steps(4) infinite}
+.blink::after{content:"_";margin-left:.15em;animation:blink 1s steps(1) infinite}
+.spin{animation:spin-step .4s steps(8)}
+
+#mobile-menu:not(.hidden),#mobile-projects-menu:not(.hidden){animation:drop .25s steps(4)}
+.group>.absolute{animation:drop .2s steps(4)}
+#project-modal.flex{animation:fade .2s steps(4)}
+#project-modal.flex>div{animation:pop .3s steps(5)}
+li[data-search-item]:hover{animation:hop .3s steps(3)}
+.btn-pixel,a.bg-cyan-500{transition:transform .1s steps(2),background-color .1s steps(2)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1}
+}
